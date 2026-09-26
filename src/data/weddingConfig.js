@@ -135,9 +135,13 @@ export const weddingConfig = {
     }
   ],
 
+  // Nhạc nền (Đặt file mp3 vào public/music/wedding-song.mp3 hoặc dán link mp3 online vào đây)
+  musicUrl: "/music/THẾ GIỚI CỦA ANH.mp3",
+
   // Google Sheets Apps Script API URL
   // Bạn chỉ cần paste Web App URL từ Google Apps Script vào đây!
   googleScriptUrl: "https://script.google.com/macros/s/AKfycbzTf1oVWXr6DItBHUpXXDwMldILiFstSFqRg7n0tWZf33Nhc5aHCyEM-fWXs66EEiVf/exec",
+
 
   // Lời chúc mẫu ban đầu (khi chưa có kết nối Google Sheet hoặc đang tải)
   initialWishes: [

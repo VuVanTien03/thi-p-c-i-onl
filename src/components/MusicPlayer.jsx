@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { FaMusic, FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
+import { weddingConfig } from '../data/weddingConfig';
+
 
 export default function MusicPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -144,10 +146,11 @@ export default function MusicPlayer() {
     <>
       <audio
         ref={audioElemRef}
-        src="/music/wedding-song.mp3"
+        src={weddingConfig.musicUrl || "/music/wedding-song.mp3"}
         loop
         preload="auto"
       />
+
 
       <button
         className={`music-player-btn ${isPlaying ? 'playing' : ''}`}
