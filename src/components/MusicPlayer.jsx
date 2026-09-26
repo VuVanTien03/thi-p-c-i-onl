@@ -3,7 +3,7 @@ import { FaMusic, FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
 import { weddingConfig } from '../data/weddingConfig';
 
 
-export default function MusicPlayer() {
+export default function MusicPlayer({ autoPlay = false }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioContextRef = useRef(null);
   const timerRef = useRef(null);
@@ -21,21 +21,13 @@ export default function MusicPlayer() {
 
   // Chuỗi hợp âm arpeggio du dương lãng mạn
   const melody = [
-    // D major
     { note: notes.D4, dur: 0.6 }, { note: notes.Fs4, dur: 0.6 }, { note: notes.A4, dur: 0.6 }, { note: notes.D5, dur: 0.8 },
-    // A major
     { note: notes.Cs5, dur: 0.6 }, { note: notes.A4, dur: 0.6 }, { note: notes.E4, dur: 0.6 }, { note: notes.A3, dur: 0.8 },
-    // B minor
     { note: notes.B4, dur: 0.6 }, { note: notes.Fs4, dur: 0.6 }, { note: notes.D4, dur: 0.6 }, { note: notes.B3, dur: 0.8 },
-    // F# minor
     { note: notes.A4, dur: 0.6 }, { note: notes.Fs4, dur: 0.6 }, { note: notes.Cs4, dur: 0.6 }, { note: notes.Fs3, dur: 0.8 },
-    // G major
     { note: notes.G3, dur: 0.6 }, { note: notes.B3, dur: 0.6 }, { note: notes.D4, dur: 0.6 }, { note: notes.G4, dur: 0.8 },
-    // D major
     { note: notes.Fs4, dur: 0.6 }, { note: notes.D4, dur: 0.6 }, { note: notes.A3, dur: 0.6 }, { note: notes.D4, dur: 0.8 },
-    // G major
     { note: notes.G4, dur: 0.6 }, { note: notes.B4, dur: 0.6 }, { note: notes.D5, dur: 0.6 }, { note: notes.B4, dur: 0.8 },
-    // A7
     { note: notes.E4, dur: 0.6 }, { note: notes.A4, dur: 0.6 }, { note: notes.Cs5, dur: 0.6 }, { note: notes.E5, dur: 0.8 }
   ];
 
@@ -44,18 +36,13 @@ export default function MusicPlayer() {
     try {
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
-      
-      // Âm thanh đàn harp / electric piano ấm
       osc.type = 'triangle';
       osc.frequency.setValueAtTime(freq, ctx.currentTime);
-
       gain.gain.setValueAtTime(0.001, ctx.currentTime);
       gain.gain.exponentialRampToValueAtTime(0.08, ctx.currentTime + 0.08);
       gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
-
       osc.connect(gain);
       gain.connect(ctx.destination);
-
       osc.start();
       osc.stop(ctx.currentTime + duration);
     } catch {
@@ -70,12 +57,10 @@ export default function MusicPlayer() {
         audioContextRef.current = new AudioCtx();
       }
     }
-
     const ctx = audioContextRef.current;
     if (ctx && ctx.state === 'suspended') {
       ctx.resume();
     }
-
     let noteIdx = 0;
     const playNext = () => {
       if (!ctx || ctx.state !== 'running') return;
@@ -86,7 +71,6 @@ export default function MusicPlayer() {
       noteIdx = (noteIdx + 1) % melody.length;
       timerRef.current = setTimeout(playNext, (current ? current.dur : 0.6) * 1000);
     };
-
     playNext();
   };
 
@@ -100,57 +84,64 @@ export default function MusicPlayer() {
     }
   };
 
-  const togglePlay = () => {
-    if (isPlaying) {
-      // Stop
-      if (audioElemRef.current && !audioElemRef.current.paused) {
-        audioElemRef.current.pause();
-      }
-      stopSynth();
-      setIsPlaying(false);
-    } else {
-      // Start
-      // Kiểm tra xem có file audio MP3 không
-      if (audioElemRef.current && audioElemRef.current.src) {
-        audioElemRef.current.play().then(() => {
-          setIsPlaying(true);
-        }).catch(() => {
-          // Fallback sang Web Audio API synthesizer
-          startSynth();
-          setIsPlaying(true);
-        });
-      } else {
-        startSynth();
+  const playMusic = () => {
+    if (audioElemRef.current) {
+      audioElemRef.current.play().then(() => {
         setIsPlaying(true);
-      }
+      }).catch((err) => {
+        console.log("Audio play caught:", err.message);
+      });
+    } else {
+      startSynth();
+      setIsPlaying(true);
     }
   };
 
-  // Thử tự động phát nhạc khi user click bất kỳ đâu lần đầu tiên trên trang
-  useEffect(() => {
-    const handleFirstClick = () => {
-      if (!isPlaying) {
-        togglePlay();
-      }
-      window.removeEventListener('click', handleFirstClick);
-    };
+  const pauseMusic = () => {
+    if (audioElemRef.current && !audioElemRef.current.paused) {
+      audioElemRef.current.pause();
+    }
+    stopSynth();
+    setIsPlaying(false);
+  };
 
-    window.addEventListener('click', handleFirstClick, { once: true });
+  const togglePlay = () => {
+    if (isPlaying) {
+      pauseMusic();
+    } else {
+      playMusic();
+    }
+  };
+
+  useEffect(() => {
+    // Chỉ phát khi có tín hiệu autoPlay (khi người dùng bấm Mở Thiệp chuyển sang Trang 2)
+    if (autoPlay) {
+      playMusic();
+    }
+
+    // Lắng nghe sự kiện phát nhạc từ nút Mở Thiệp
+    const handleCustomTrigger = () => {
+      playMusic();
+    };
+    window.addEventListener('play-wedding-music', handleCustomTrigger);
+
     return () => {
-      window.removeEventListener('click', handleFirstClick);
+      window.removeEventListener('play-wedding-music', handleCustomTrigger);
       stopSynth();
     };
-  }, []);
+  }, [autoPlay]);
+
+
+  const musicSrc = weddingConfig.musicUrl ? encodeURI(weddingConfig.musicUrl) : "/music/wedding-song.mp3";
 
   return (
     <>
       <audio
         ref={audioElemRef}
-        src={weddingConfig.musicUrl || "/music/wedding-song.mp3"}
+        src={musicSrc}
         loop
         preload="auto"
       />
-
 
       <button
         className={`music-player-btn ${isPlaying ? 'playing' : ''}`}
@@ -164,3 +155,4 @@ export default function MusicPlayer() {
     </>
   );
 }
+

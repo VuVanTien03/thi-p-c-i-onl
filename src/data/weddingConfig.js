@@ -1,37 +1,37 @@
 export const weddingConfig = {
   // Cặp đôi
   groom: {
-    name: "Nguyễn Tuấn Anh",
-    shortName: "Tuấn Anh",
+    name: "Phạm Mạnh Thắng",
+    shortName: "Mạnh Thắng",
     role: "Chú Rể",
     title: "Trưởng nam",
-    father: "Nguyễn Văn Hùng",
+    father: "Phạm Văn Hùng",
     mother: "Trần Thị Mai",
-    bio: "Một chàng trai đam mê công nghệ, luôn yêu thương, nhường nhịn và dành trọn sự ấm áp cho người con gái của đời mình.",
-    avatar: "/images/groom.jpg",
+    bio: "Một chàng trai luôn yêu thương, nhường nhịn và dành trọn sự ấm áp cho người con gái của đời mình.",
+    avatar: "/images/polaroid-left.jpg",
     phone: "0901 234 567",
     bank: {
       bankName: "MB Bank",
       accountNumber: "999988886666",
-      accountName: "NGUYEN TUAN ANH",
-      qrCode: "https://api.vietqr.io/image/970422-999988886666-compact2.jpg?amount=0&addInfo=Mung%20cuoi%20Tuan%20Anh"
+      accountName: "PHAM MANH THANG",
+      qrCode: "https://api.vietqr.io/image/970422-999988886666-compact2.jpg?amount=0&addInfo=Mung%20cuoi%20Manh%20Thang"
     }
   },
   bride: {
-    name: "Lê Thu Trang",
-    shortName: "Thu Trang",
+    name: "Nguyễn Hương Ly",
+    shortName: "Hương Ly",
     role: "Cô Dâu",
     title: "Ái nữ",
-    father: "Lê Hoàng Long",
+    father: "Nguyễn Hoàng Long",
     mother: "Phạm Thị Lan",
     bio: "Cô gái dịu dàng, nụ cười toả nắng, luôn tin rằng tình yêu đích thực là khi tìm thấy một tâm hồn đồng điệu để cùng sẻ chia.",
-    avatar: "/images/bride.jpg",
+    avatar: "/images/polaroid-right.jpg",
     phone: "0912 345 678",
     bank: {
       bankName: "Techcombank",
       accountNumber: "190366889922",
-      accountName: "LE THU TRANG",
-      qrCode: "https://api.vietqr.io/image/970407-190366889922-compact2.jpg?amount=0&addInfo=Mung%20cuoi%20Thu%20Trang"
+      accountName: "NGUYEN HUONG LY",
+      qrCode: "https://api.vietqr.io/image/970407-190366889922-compact2.jpg?amount=0&addInfo=Mung%20cuoi%20Huong%20Ly"
     }
   },
 
@@ -43,8 +43,9 @@ export const weddingConfig = {
   // Câu trích dẫn tình yêu
   quote: {
     text: "Hai con người, hai trái tim, cùng chung một nhịp đập. Từ khoảnh khắc này cho đến mãi mãi về sau.",
-    author: "Tuấn Anh & Thu Trang"
+    author: "Mạnh Thắng & Hương Ly"
   },
+
 
   // Sự kiện
   events: [
