@@ -1,13 +1,13 @@
 import React, { useMemo } from 'react';
 
 export default function FallingPetals() {
-  // Sinh danh sách 22 cánh hoa ngẫu nhiên
+  // Sinh danh sách 10 cánh hoa ngẫu nhiên nhẹ nhàng
   const petals = useMemo(() => {
-    return Array.from({ length: 22 }, (_, i) => {
+    return Array.from({ length: 10 }, (_, i) => {
       const left = Math.random() * 100; // 0 - 100%
-      const duration = 9 + Math.random() * 8; // 9s - 17s
-      const delay = Math.random() * 12; // 0s - 12s
-      const width = 12 + Math.random() * 14; // 12px - 26px
+      const duration = 11 + Math.random() * 9; // 11s - 20s (rơi chậm, thoang thoảng)
+      const delay = Math.random() * 14; // 0s - 14s (khoảng cách thưa)
+      const width = 12 + Math.random() * 12; // 12px - 24px
       const height = width * (1.2 + Math.random() * 0.4);
       const blur = Math.random() > 0.7 ? 1 : 0;
 
@@ -24,6 +24,7 @@ export default function FallingPetals() {
       };
     });
   }, []);
+
 
   return (
     <div className="petals-container" aria-hidden="true">

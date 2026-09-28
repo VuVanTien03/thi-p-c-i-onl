@@ -5,13 +5,13 @@ import { FaEnvelopeOpen } from 'react-icons/fa';
 import { weddingConfig } from '../data/weddingConfig';
 
 export default function InvitationCover({ onOpen }) {
-  // Sinh danh sách cánh hoa hồng rơi mềm mại ở trang bìa
+  // Sinh danh sách 10 cánh hoa hồng rơi mềm mại ở trang bìa (thưa và thoang thoảng)
   const coverPetals = useMemo(() => {
-    return Array.from({ length: 22 }, (_, i) => {
+    return Array.from({ length: 10 }, (_, i) => {
       const left = Math.random() * 100;
-      const duration = 8 + Math.random() * 8; // 8s - 16s
-      const delay = Math.random() * 8;
-      const width = 14 + Math.random() * 16;
+      const duration = 11 + Math.random() * 9; // 11s - 20s
+      const delay = Math.random() * 14;
+      const width = 13 + Math.random() * 14;
       const height = width * (1.2 + Math.random() * 0.35);
 
       return {
@@ -33,6 +33,7 @@ export default function InvitationCover({ onOpen }) {
       };
     });
   }, []);
+
 
   const handleOpen = () => {
     // Bắn pháo hoa cánh hoa hồng rực rỡ
